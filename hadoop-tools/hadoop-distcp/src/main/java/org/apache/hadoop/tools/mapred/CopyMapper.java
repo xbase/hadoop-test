@@ -136,7 +136,6 @@ public class CopyMapper extends Mapper<Text, CopyListingFileStatus, Text, Text> 
   public void map(Text relPath, CopyListingFileStatus sourceFileStatus,
           Context context) throws IOException, InterruptedException {
     Path sourcePath = sourceFileStatus.getPath();
-
     if (LOG.isDebugEnabled())
       LOG.debug("DistCpMapper::map(): Received " + sourcePath + ", " + relPath);
 
@@ -350,7 +349,7 @@ public class CopyMapper extends Mapper<Text, CopyListingFileStatus, Text, Text> 
     if (sameLength && sameBlockSize) {
       return skipCrc ||
           DistCpUtils.checksumsAreEqual(sourceFS, source.getPath(), null,
-              targetFS, target.getPath());
+              targetFS, target.getPath(), source.getLen());
     } else {
       return false;
     }
